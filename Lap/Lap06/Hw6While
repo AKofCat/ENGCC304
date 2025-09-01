@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+int main() {
+    int NUM;
+    printf("put number: ");
+    scanf("%d", &NUM);
+
+    int i = NUM;
+    while (i >= 2) {
+        int j = 2;
+        while (j <= i / 2 && i % j != 0) {
+            j++;
+        }
+        if (j > i / 2) { 
+            printf("%d ", i);
+        }
+        i--;
+    }
+
+    return 0;
+}
