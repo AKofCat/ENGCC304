@@ -1,0 +1,92 @@
+
+#include <iostream>
+#include <string>
+#include <thread>
+#include <chrono>
+using namespace std;
+
+void function_money(float sum) {
+    int B1000 = 0, B500 = 0, B100 = 0, B50 = 0, B20 = 0, B1 = 0;
+    int c = 0, d = 0, n = 0, p = 0;
+    float x = sum;
+
+    while (x >= 1000) { B1000++; x -= 1000; }
+    while (x >= 500)  { B500++;  x -= 500; }
+    while (x >= 100)  { B100++;  x -= 100; }
+    while (x >= 50)   { B50++;   x -= 50; }
+    while (x >= 20)   { B20++;   x -= 20; }
+    while (x >= 1)    { B1++;    x -= 1; }
+
+    float m = (sum - (int)sum) * 100;
+    if (m >= 25) { c = m / 25; m -= c * 25; }
+    if (m >= 10) { d = m / 10; m -= d * 10; }
+    if (m >= 5)  { n = m / 5;  m -= n * 5; }
+    if (m >= 1)  { p = m / 1;  m -= p * 1; }
+
+    cout << "Banknote:\n";
+    cout << "1000 : " << B1000 << endl;
+    cout << "500 : " << B500 << endl;
+    cout << "100 : " << B100 << endl;
+    cout << "50 : " << B50 << endl;
+    cout << "20 : " << B20 << endl;
+    cout << "Coin:\n";
+    cout << "1 : " << B1 << endl;
+    cout << "0.25 : " << c << endl;
+    cout << "0.10 : " << d << endl;
+    cout << "0.05 : " << n << endl;
+    cout << "0.01 : " << p << endl;
+}
+
+float function_Drink(const string& drink) {
+    if (drink == "Coke") return 10.00;
+    if (drink == "GreenFanta") return 20.00;
+    if (drink == "Americano") return 30.00;
+    if (drink == "SweetestLate") return 35.00;
+    cout << "Back to menu\n";
+    return 0;
+}
+
+float function_Snack(const string& snack) {
+    if (snack == "Sunflower") return 13.00;
+    if (snack == "JeenSomMaok") return 15.00;
+    if (snack == "PaeBean") return 20.00;
+    cout << "Back to menu\n";
+    return 0;
+}
+
+int main() {
+    string input;
+    cout << "Input cart (Drink or Snack): ";
+    cin >> input;
+
+    float total = 0.0;
+    if (input == "Coke" || input == "GreenFanta" || input == "Americano" || input == "SweetestLate") {
+        total = function_Drink(input);
+    } else if (input == "Sunflower" || input == "JeenSomMaok" || input == "PaeBean") {
+        total = function_Snack(input);
+    } else {
+        cout << "Invalid input. Returning to menu.\n";
+        return 0;
+    }
+
+    cout << "Total : " << total << endl;
+
+    float sum;
+    cout << "Input money : ";
+    cin >> sum;
+
+    if (sum < total) {
+        cout << "Not enough money! Cooldown 300 seconds..." << endl;
+        std::this_thread::sleep_for(std::chrono::seconds(300));
+        return 0;
+    }
+
+    cout << "You paid: " << sum << " Baht" << endl;
+    float change = sum - total;
+    cout << "Change: " << change << " Baht" << endl;
+    if (change > 0) {
+        function_money(change);
+    }
+    return 0;
+}
+
